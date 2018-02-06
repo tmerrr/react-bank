@@ -16,6 +16,13 @@ export default class BankAccount extends Component {
     })
   }
 
+  handleDeposit = () => {
+    let newBalance = this.state.balance + this.state.amount;
+    this.setState({
+      balance: newBalance
+    })
+  }
+
   render() {
     return(
       <div>
@@ -24,8 +31,14 @@ export default class BankAccount extends Component {
           type="number"
           id="amount"
           onChange={this.handleAmountChange}
-          value={this.state.amount}>
-        </input>
+          value={this.state.amount}
+        />
+        <button
+          id="deposit"
+          onClick={this.handleDeposit}
+        >
+          Deposit
+        </button>
       </div>
 
     )
