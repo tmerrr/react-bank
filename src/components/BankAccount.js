@@ -20,13 +20,22 @@ export default class BankAccount extends Component {
     let newBalance = this.state.balance + this.state.amount;
     this.setState({
       balance: newBalance
-    })
+    });
+  }
+
+  handleWithdraw = () => {
+    let newBalance = this.state.balance - this.state.amount;
+    this.setState({
+      balance: newBalance
+    });
   }
 
   render() {
+    let balanceColor = this.state.balance >= 0 ? 'black' : 'red';
+
     return(
       <div>
-        <h3>£{this.state.balance.toFixed(2)}</h3>
+        <h3 style={{ color: balanceColor }}>£{this.state.balance.toFixed(2)}</h3>
         <input
           type="number"
           id="amount"
@@ -38,6 +47,12 @@ export default class BankAccount extends Component {
           onClick={this.handleDeposit}
         >
           Deposit
+        </button>
+        <button
+          id="withdraw"
+          onClick={this.handleWithdraw}
+        >
+          Withdraw
         </button>
       </div>
 

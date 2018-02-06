@@ -19,6 +19,16 @@ describe('BankAccount', () => {
       expect(wrapper.find('h3').text()).toEqual('£0.00')
     })
 
+    it('text turns red when negative', () => {
+      expect(wrapper.find('h3').props().style).toEqual({ color: 'black' })
+      wrapper.find({ id: 'amount' })
+        .simulate('change', { target: { value: 0.01 } })
+      wrapper.find({ id: 'withdraw' }).simulate('click')
+      expect(wrapper.find('h3').props().style).toEqual({ color: 'red' })
+    })
+  })
+
+  describe('state: amount', () => {
     it('has a property of Amount, which starts at 0', () => {
       expect(account.state.amount).toEqual(0);
     });
@@ -35,6 +45,11 @@ describe('BankAccount', () => {
     it('renders a deposit button', () => {
       expect(wrapper.find({ id: 'deposit' }).type()).toEqual('button');
       expect(wrapper.find({ id: 'deposit' }).text()).toEqual('Deposit');
+    })
+
+    it('renders a withdraw button', () => {
+      expect(wrapper.find({ id: 'withdraw' }).type()).toEqual('button');
+      expect(wrapper.find({ id: 'withdraw' }).text()).toEqual('Withdraw');
     })
   })
 
@@ -54,6 +69,27 @@ describe('BankAccount', () => {
     it('adds 25 to the balance', () => {
       amount.simulate('change', { target: { value: '25' } });
       depositBtn.simulate('click');
+      expect(account.state.balance).toEqual(25);
+    })
+  })
+
+  describe('#handleWithdraw', () => {
+    let amount, withdrawBtn;
+    beforeEach(() => {
+      account.setState({ balance: 50 })
+      amount = wrapper.find({ id: 'amount' });
+      withdrawBtn = wrapper.find({ id: 'withdraw' });
+    })
+
+    it('deducts 10 to the balance', () => {
+      amount.simulate('change', { target: { value: '10' } });
+      withdrawBtn.simulate('click');
+      expect(account.state.balance).toEqual(40);
+    })
+
+    it('deducts 25 to the balance', () => {
+      amount.simulate('change', { target: { value: '25' } });
+      withdrawBtn.simulate('click');
       expect(account.state.balance).toEqual(25);
     })
   })
