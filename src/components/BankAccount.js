@@ -4,8 +4,9 @@ export default class BankAccount extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      balance : 0,
-      amount  : 0
+      balance     : 0,
+      amount      : 0,
+      transactions: []
     }
   }
 
@@ -18,8 +19,15 @@ export default class BankAccount extends Component {
 
   handleDeposit = () => {
     let newBalance = this.state.balance + this.state.amount;
+    let updatedTransactions = this.state.transactions.slice()
+    updatedTransactions.push({
+      credit  : this.state.amount,
+      debit   : null,
+      balance : newBalance
+    })
     this.setState({
-      balance: newBalance
+      balance       : newBalance,
+      transactions  : updatedTransactions
     });
   }
 

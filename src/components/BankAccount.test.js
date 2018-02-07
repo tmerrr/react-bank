@@ -34,6 +34,13 @@ describe('BankAccount', () => {
     });
   })
 
+  describe('state: transactions', () => {
+    it('has an array to store transactions', () => {
+      expect(account.state.transactions).toBeInstanceOf(Array);
+      expect(account.state.transactions).toHaveLength(0);
+    })
+  })
+
   describe('The form', () => {
     it('renders a number input type with ID of "amount"', () => {
       expect(wrapper.find('input').length).toEqual(1);
@@ -71,6 +78,32 @@ describe('BankAccount', () => {
       depositBtn.simulate('click');
       expect(account.state.balance).toEqual(25);
     })
+
+    it('should add an object with the transaction details to the transactions array', () => {
+      amount.simulate('change', { target: { value: '10' } });
+      depositBtn.simulate('click');
+      let transaction = {
+        credit  : 10,
+        debit   : null,
+        balance : 10
+      }
+      expect(account.state.transactions).toHaveLength(1);
+      expect(account.state.transactions[0]).toEqual(transaction);
+    });
+
+    it('a transaction is added with the correct info', () => {
+      amount.simulate('change', { target: { value: '10' } });
+      depositBtn.simulate('click');
+      amount.simulate('change', { target: { value: '15' } });
+      depositBtn.simulate('click');
+      let transaction = {
+        credit  : 15,
+        debit   : null,
+        balance : 25
+      }
+      expect(account.state.transactions).toHaveLength(2);
+      expect(account.state.transactions[1]).toEqual(transaction);
+    });
   })
 
   describe('#handleWithdraw', () => {
