@@ -4,8 +4,8 @@ export default class BankAccount extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      balance     : 0,
       amount      : 0,
+      balance     : 0,
       transactions: []
     }
   }
@@ -26,6 +26,7 @@ export default class BankAccount extends Component {
       balance : newBalance
     })
     this.setState({
+      amount        : 0,
       balance       : newBalance,
       transactions  : updatedTransactions
     });
@@ -33,8 +34,16 @@ export default class BankAccount extends Component {
 
   handleWithdraw = () => {
     let newBalance = this.state.balance - this.state.amount;
+    let updatedTransactions = this.state.transactions.slice();
+    updatedTransactions.push({
+      credit  : null,
+      debit   : this.state.amount,
+      balance : newBalance
+    })
     this.setState({
-      balance: newBalance
+      amount      : 0,
+      balance     : newBalance,
+      transactions: updatedTransactions
     });
   }
 
@@ -43,7 +52,9 @@ export default class BankAccount extends Component {
 
     return(
       <div>
-        <h3 style={{ color: balanceColor }}>£{this.state.balance.toFixed(2)}</h3>
+        <h3 style={{ color: balanceColor }}>
+          Current Balance: £{this.state.balance.toFixed(2)}
+        </h3>
         <input
           type="number"
           id="amount"

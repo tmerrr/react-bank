@@ -16,7 +16,7 @@ describe('BankAccount', () => {
 
     it('renders the balance', () => {
       expect(wrapper.find('h3').length).toEqual(1)
-      expect(wrapper.find('h3').text()).toEqual('£0.00')
+      expect(wrapper.find('h3').text()).toEqual('Current Balance: £0.00')
     })
 
     it('text turns red when negative', () => {
@@ -104,6 +104,12 @@ describe('BankAccount', () => {
       expect(account.state.transactions).toHaveLength(2);
       expect(account.state.transactions[1]).toEqual(transaction);
     });
+
+    it('resets the amount to 0', () => {
+      amount.simulate('change', { target: { value: '10' } });
+      depositBtn.simulate('click');
+      expect(account.state.amount).toEqual(0);
+    })
   })
 
   describe('#handleWithdraw', () => {
@@ -124,6 +130,38 @@ describe('BankAccount', () => {
       amount.simulate('change', { target: { value: '25' } });
       withdrawBtn.simulate('click');
       expect(account.state.balance).toEqual(25);
+    })
+
+    it('should add an object with the transaction details to the transactions array', () => {
+      amount.simulate('change', { target: { value: '10' } });
+      withdrawBtn.simulate('click');
+      let transaction = {
+        credit  : null,
+        debit   : 10,
+        balance : 40
+      }
+      expect(account.state.transactions).toHaveLength(1);
+      expect(account.state.transactions[0]).toEqual(transaction);
+    });
+
+    it('a transaction is added with the correct info', () => {
+      amount.simulate('change', { target: { value: '10' } });
+      withdrawBtn.simulate('click');
+      amount.simulate('change', { target: { value: '25' } });
+      withdrawBtn.simulate('click');
+      let transaction = {
+        credit  : null,
+        debit   : 25,
+        balance : 15
+      }
+      expect(account.state.transactions).toHaveLength(2);
+      expect(account.state.transactions[1]).toEqual(transaction);
+    });
+
+    it('resets the amount to 0', () => {
+      amount.simulate('change', { target: { value: '10' } });
+      withdrawBtn.simulate('click');
+      expect(account.state.amount).toEqual(0);
     })
   })
 
