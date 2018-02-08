@@ -44,7 +44,6 @@ describe('Transaction', () => {
       const wrapper = shallow(
         <Transaction
           credit={5}
-          debit={null}
           balance={15}
         />
       )
@@ -59,7 +58,6 @@ describe('Transaction', () => {
     it('displays the details of the transaction in a table', () => {
       const wrapper = shallow(
         <Transaction
-          credit={null}
           debit={20}
           balance={5}
         />

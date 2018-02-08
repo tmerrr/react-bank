@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import BankAccount from './BankAccount';
+import Transaction from './Transaction';
 
 describe('BankAccount', () => {
   let wrapper, account;
@@ -82,13 +83,13 @@ describe('BankAccount', () => {
     it('should add an object with the transaction details to the transactions array', () => {
       amount.simulate('change', { target: { value: '10' } });
       depositBtn.simulate('click');
-      let transaction = {
-        credit  : 10,
-        debit   : null,
-        balance : 10
-      }
       expect(account.state.transactions).toHaveLength(1);
-      expect(account.state.transactions[0]).toEqual(transaction);
+      expect(account.state.transactions[0]).toEqual(
+        <Transaction
+          credit={10}
+          balance={10}
+        />
+      );
     });
 
     it('a transaction is added with the correct info', () => {
@@ -96,13 +97,13 @@ describe('BankAccount', () => {
       depositBtn.simulate('click');
       amount.simulate('change', { target: { value: '15' } });
       depositBtn.simulate('click');
-      let transaction = {
-        credit  : 15,
-        debit   : null,
-        balance : 25
-      }
       expect(account.state.transactions).toHaveLength(2);
-      expect(account.state.transactions[1]).toEqual(transaction);
+      expect(account.state.transactions[1]).toEqual(
+        <Transaction
+          credit={15}
+          balance={25}
+        />
+      );
     });
 
     it('resets the amount to 0', () => {
@@ -135,11 +136,12 @@ describe('BankAccount', () => {
     it('should add an object with the transaction details to the transactions array', () => {
       amount.simulate('change', { target: { value: '10' } });
       withdrawBtn.simulate('click');
-      let transaction = {
-        credit  : null,
-        debit   : 10,
-        balance : 40
-      }
+      let transaction = (
+        <Transaction
+          debit={10}
+          balance={40}
+        />
+      )
       expect(account.state.transactions).toHaveLength(1);
       expect(account.state.transactions[0]).toEqual(transaction);
     });
@@ -149,11 +151,12 @@ describe('BankAccount', () => {
       withdrawBtn.simulate('click');
       amount.simulate('change', { target: { value: '25' } });
       withdrawBtn.simulate('click');
-      let transaction = {
-        credit  : null,
-        debit   : 25,
-        balance : 15
-      }
+      let transaction = (
+        <Transaction
+          debit={25}
+          balance={15}
+        />
+      )
       expect(account.state.transactions).toHaveLength(2);
       expect(account.state.transactions[1]).toEqual(transaction);
     });

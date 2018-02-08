@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Transaction from './Transaction';
 
 export default class BankAccount extends Component {
   constructor(props) {
@@ -20,11 +21,12 @@ export default class BankAccount extends Component {
   handleDeposit = () => {
     let newBalance = this.state.balance + this.state.amount;
     let updatedTransactions = this.state.transactions.slice()
-    updatedTransactions.push({
-      credit  : this.state.amount,
-      debit   : null,
-      balance : newBalance
-    })
+    updatedTransactions.push(
+      <Transaction
+        credit={this.state.amount}
+        balance={newBalance}
+      />
+    )
     this.setState({
       amount        : 0,
       balance       : newBalance,
@@ -35,11 +37,12 @@ export default class BankAccount extends Component {
   handleWithdraw = () => {
     let newBalance = this.state.balance - this.state.amount;
     let updatedTransactions = this.state.transactions.slice();
-    updatedTransactions.push({
-      credit  : null,
-      debit   : this.state.amount,
-      balance : newBalance
-    })
+    updatedTransactions.push(
+      <Transaction
+        debit={this.state.amount}
+        balance={newBalance}
+      />
+    )
     this.setState({
       amount      : 0,
       balance     : newBalance,
