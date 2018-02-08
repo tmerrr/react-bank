@@ -76,6 +76,19 @@ export default class BankAccount extends Component {
         >
           Withdraw
         </button>
+        <div>
+          <table>
+            <tbody>
+              <tr>
+                <th>Date</th>
+                <th>Credit</th>
+                <th>Debit</th>
+                <th>Balance</th>
+              </tr>
+              {this.state.transactions}
+            </tbody>
+          </table>
+        </div>
       </div>
 
     )

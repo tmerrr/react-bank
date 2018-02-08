@@ -176,4 +176,26 @@ describe('BankAccount', () => {
     })
   })
 
+  describe('Render Transactions Table', () => {
+    it('prints a table', () => {
+      expect(wrapper.find('table').length).toEqual(1)
+    })
+
+    it('prints the table headers', () => {
+      expect(wrapper.find('tr').length).toEqual(1);
+      expect(wrapper.find('tr').find('th').length).toEqual(4);
+      const tableHeader = wrapper.find('th')
+      expect(tableHeader.at(0).text()).toEqual('Date');
+      expect(tableHeader.at(1).text()).toEqual('Credit');
+      expect(tableHeader.at(2).text()).toEqual('Debit');
+      expect(tableHeader.at(3).text()).toEqual('Balance');
+    })
+
+    it('shows the transaction', () => {
+      wrapper.find({ id: 'amount' }).simulate('change', { target: { value: '15' } });
+      wrapper.find({ id: 'deposit' }).simulate('click');
+      expect(wrapper.find('Transaction').length).toEqual(1);
+    })
+  })
+
 });
