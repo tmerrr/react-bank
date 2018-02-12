@@ -2,4 +2,4 @@
 
 Re-doing the Bank Tech Test, using React
 
-Tested using Jest and Enzyme
+Tested using Jest and Enzyme.
